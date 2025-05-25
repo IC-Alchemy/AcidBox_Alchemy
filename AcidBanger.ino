@@ -45,9 +45,7 @@
 // removed/modified buttons processing
 //
 
-#ifdef NEOPIXEL_MATRIX_PIN // Only if matrix features are enabled via config.h
-#include <Adafruit_NeoPixel.h>
-#endif
+#include <Adafruit_NeoPix/el.h>
 
 #define KICK_NOTE 0               // 001
 #define SNARE_NOTE 1              // 002
@@ -457,7 +455,7 @@ static void instr_noteon(byte instr, byte value, byte do_glide,
 // and glide flags for the current step Plays note on or note off accordingly,
 // supporting monophonic glide and accent features
 void sequencer_step(byte step) {
-#ifdef NEOPIXEL_MATRIX_PIN
+#ifdef NEOPIXEL_MATRIX
   update_neopixel_matrix_display(step);
 #endif
 #ifdef MIDI_RAMPS
@@ -1341,7 +1339,7 @@ void run_tick() {
 */
 
 // NeoPixel Matrix Display Functions (only if enabled in config.h)
-#ifdef NEOPIXEL_MATRIX_PIN
+#ifdef NEOPIXEL_MATRIX
 
 Adafruit_NeoPixel neopixel_matrix(NEOPIXEL_MATRIX_WIDTH *NEOPIXEL_MATRIX_HEIGHT,
                                   NEOPIXEL_MATRIX_PIN, NEOPIXEL_MATRIX_TYPE);
@@ -1351,6 +1349,7 @@ uint32_t color_off_matrix;
 uint32_t color_on_matrix;
 uint32_t color_slide_matrix;
 uint32_t color_current_step_indicator;
+uint32_t color_background_matrix;
 
 void init_neopixel_matrix() {
   neopixel_matrix.begin();
@@ -1358,12 +1357,12 @@ void init_neopixel_matrix() {
       30); // Adjust brightness as needed (0-255). Start low!
 
   // Initialize color values
-  color_off_matrix = neopixel_matrix.Color(0, 0, 0);  // Off
-  color_on_matrix = neopixel_matrix.Color(100, 0, 0); // Red for 'on' steps
+  color_off_matrix = neopixel_matrix.Color(0, 8, 5); // Off
+  color_on_matrix = neopixel_matrix.Color(44, 0, 0); // Red for 'on' steps
   color_slide_matrix =
-      neopixel_matrix.Color(0, 0, 100); // Blue for 'slide' steps
+      neopixel_matrix.Color(0, 0, 44); // Blue for 'slide' steps
   color_current_step_indicator =
-      neopixel_matrix.Color(0, 100, 0); // Green for current step
+      neopixel_matrix.Color(0, 44, 0); // Green for current step
 
   neopixel_matrix.clear(); // Clear all pixels
   neopixel_matrix.show();  // Initialize display
@@ -1380,7 +1379,6 @@ void set_matrix_pixel(int x, int y, uint32_t color) {
 
 void update_neopixel_matrix_display(byte current_seq_step) {
   neopixel_matrix.clear(); // Start by clearing the matrix
-
   // Get patterns for the first two synths
   Pattern *seq1_pattern = &memories[cur_memory].patterns[0]; // Synth 1
   Pattern *seq2_pattern = &memories[cur_memory].patterns[1]; // Synth 2

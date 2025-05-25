@@ -7,19 +7,20 @@
 #define JUKEBOX_PLAY_ON_START // should it play on power on, or should it wait
                               // for "boot" button to be pressed
 //#define MIDI_RAMPS              // this is what makes automated Cutoff-Reso-FX
-//turn #define TEST_POTS               // experimental interactivity with
-//potentiometers connected to POT_PINS[] defined below
+// turn #define TEST_POTS               // experimental interactivity with
+// potentiometers connected to POT_PINS[] defined below
 
 //#define USE_INTERNAL_DAC      // use this for testing, SOUND QUALITY
-//SACRIFICED: NOISY 8BIT STEREO #define NO_PSRAM              // if you don't
-//have PSRAM on your board, then use this define, but REVERB TO BE SACRIFICED,
-//ONE SMALL DRUM KIT SAMPLES USED
+// SACRIFICED: NOISY 8BIT STEREO #define NO_PSRAM              // if you don't
+// have PSRAM on your board, then use this define, but REVERB TO BE SACRIFICED,
+// ONE SMALL DRUM KIT SAMPLES USED
 
-//#define LOLIN_RGB               // Flashes the LOLIN S3 built-in RGB-LED
+#define LOLIN_RGB // Flashes the LOLIN S3 built-in RGB-LED
 
 // NeoPixel Matrix settings for AcidBanger visualization
-//#define NEOPIXEL_MATRIX_PIN 2    // <<--- IMPORTANT: Uncomment and set your
-//NeoPixel data pin
+#define NEOPIXEL_MATRIX_PIN 2 // <<--- IMPORTANT: Uncomment and set your
+#define NEOPIXEL_MATRIX       // <<--- IMPORTANT: Uncomment and set your
+// NeoPixel data pin
 #define NEOPIXEL_MATRIX_WIDTH 8
 #define NEOPIXEL_MATRIX_HEIGHT 8
 #define NEOPIXEL_MATRIX_TYPE                                                   \
@@ -27,17 +28,17 @@
    NEO_KHZ800) // Common type, adjust if your matrix needs NEO_RGB, etc.
 
 //#define DEBUG_ON              // note that debugging eats ticks initially
-//belonging to real-time tasks, so sound output will be spoild in most cases,
-//turn it off for production build #define DEBUG_MASTER_OUT      // serial
-//monitor plotter will draw the output waveform #define DEBUG_SAMPLER #define
-//DEBUG_SYNTH #define DEBUG_JUKEBOX #define DEBUG_FX #define DEBUG_TIMING
+// belonging to real-time tasks, so sound output will be spoild in most cases,
+// turn it off for production build #define DEBUG_MASTER_OUT      // serial
+// monitor plotter will draw the output waveform #define DEBUG_SAMPLER #define
+// DEBUG_SYNTH #define DEBUG_JUKEBOX #define DEBUG_FX #define DEBUG_TIMING
 //#define DEBUG_MIDI
 
 #define MIDI_VIA_SERIAL // use this option to enable Hairless MIDI on Serial
                         // port @115200 baud (USB connector), THIS WILL BLOCK
                         // SERIAL DEBUGGING as well
 //#define MIDI_VIA_SERIAL2        // use this option if you want to operate by
-//standard MIDI @31250baud, UART2 (Serial2),
+// standard MIDI @31250baud, UART2 (Serial2),
 #define MIDIRX_PIN                                                             \
   4 // this pin is used for input when MIDI_VIA_SERIAL2 defined (note that
     // default pin 17 won't work with PSRAM)
@@ -46,17 +47,10 @@
      // MIDI_VIA_SERIAL2 defined
 
 #define POT_NUM 3
-#if defined(CONFIG_IDF_TARGET_ESP32S3)
 #define I2S_BCLK_PIN 5 // I2S BIT CLOCK pin (BCL BCK CLK)
 #define I2S_WCLK_PIN 7 // I2S WORD CLOCK pin (WCK WCL LCK)
 #define I2S_DOUT_PIN 6 // to I2S DATA IN pin (DIN D DAT)
 const uint8_t POT_PINS[POT_NUM] = {15, 16, 17};
-#elif defined(CONFIG_IDF_TARGET_ESP32)
-#define I2S_BCLK_PIN 5  // I2S BIT CLOCK pin (BCL BCK CLK)
-#define I2S_WCLK_PIN 19 // I2S WORD CLOCK pin (WCK WCL LCK)
-#define I2S_DOUT_PIN 18 // to I2S DATA IN pin (DIN D DAT)
-const uint8_t POT_PINS[POT_NUM] = {34, 35, 36};
-#endif
 
 float bpm = 130.0f;
 
@@ -97,8 +91,8 @@ const float DIV_TABLE_SIZE = 1.0f / (float)TABLE_SIZE;
 
 // illinear shaper, choose preferred parameters basing on your audial experience
 //#define SHAPER_USE_TANH             // use tanh() function to introduce
-//illeniarity into the filter and compressor, it won't impact performance as
-//this will be pre-calculated
+// illeniarity into the filter and compressor, it won't impact performance as
+// this will be pre-calculated
 #define SHAPER_USE_CUBIC // use the cubic curve to introduce illeniarity into
                          // the filter and compressor, it won't impact
                          // performance as this will be pre-calculated
